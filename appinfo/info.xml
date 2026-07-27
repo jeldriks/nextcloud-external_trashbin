@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>external_trashbin</id>
+    <name>External Trashbin</name>
+    <summary>Keep external-storage trash on the external resource</summary>
+    <description><![CDATA[
+Moves deleted items from Nextcloud external mounts into a .recycle directory on the same
+external resource while exposing those items through Nextcloud's standard Deleted files UI.
+Restore, permanent deletion, Empty deleted files, and retention expiry operate on the external copy.
+    ]]></description>
+    <version>2.4.0</version>
+    <licence>AGPL-3.0-or-later</licence>
+    <author>Manuel Buchner and contributors</author>
+    <namespace>External_Trashbin</namespace>
+    <category>files</category>
+    <types>
+        <filesystem/>
+    </types>
+    <dependencies>
+        <php min-version="8.2"/>
+        <nextcloud min-version="34" max-version="34"/>
+    </dependencies>
+    <background-jobs>
+        <job>OCA\External_Trashbin\BackgroundJob\ExpireExternalTrash</job>
+    </background-jobs>
+    <trash>
+        <!-- Marker class deliberately matches no real storage. Deletion interception is event-based. -->
+        <backend for="OCA\External_Trashbin\Storage\BackendMarker">OCA\External_Trashbin\Trash\ExternalTrashBackend</backend>
+    </trash>
+</info>
